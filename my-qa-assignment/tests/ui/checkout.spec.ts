@@ -14,9 +14,9 @@ test.describe('Checkout', { tag: ['@ui', '@checkout', '@regression'] }, () => {
       await expect(page.getByTestId('item-quantity')).toHaveText(['1', '1']);
       const subtotal = basket.reduce((sum, item) => sum + Math.round(item.price * 100), 0);
       const tax = Math.round(subtotal * 0.08);
-      await expect(page.getByTestId('subtotal-label')).toHaveText(`Item total: $${(subtotal / 100).toFixed(2)}`);
-      await expect(page.getByTestId('tax-label')).toHaveText(`Tax: $${(tax / 100).toFixed(2)}`);
-      await expect(page.getByTestId('total-label')).toHaveText(`Total: $${((subtotal + tax) / 100).toFixed(2)}`);
+      await expect(page.getByText(/^Item total:/)).toHaveText(`Item total: $${(subtotal / 100).toFixed(2)}`);
+      await expect(page.getByText(/^Tax:/)).toHaveText(`Tax: $${(tax / 100).toFixed(2)}`);
+      await expect(page.getByText(/^Total:/)).toHaveText(`Total: $${((subtotal + tax) / 100).toFixed(2)}`);
     });
     await test.step('Submit order and verify completion', async () => {
       await checkout.finish();
@@ -29,7 +29,7 @@ test.describe('Checkout', { tag: ['@ui', '@checkout', '@regression'] }, () => {
     await products.openCart();
     await checkout.start();
     await checkout.fillInformation('', customer.lastName, customer.postalCode);
-    await expect(page.getByTestId('error')).toHaveText('Error: First Name is required');
+    await expect(page.getByRole('alert')).toHaveText('Error: First Name is required');
     await expect(page).toHaveURL(/\/checkout-step-one\.html$/);
   });
 });

@@ -28,6 +28,11 @@ API tests run only in the `api` project; UI tests run only in `chromium`.
 
 ## Standards
 
+- Locator preference: role with accessible name, then label/text/placeholder as appropriate,
+  then `data-test` IDs, with CSS only as a last resort. Choose one verified locator;
+  do not silently fall back when it fails. Password uses its accessible label because
+  password inputs have no implicit textbox role. Test IDs identify repeated product
+  containers, names, prices, quantities, and the cart badge. No CSS locators are needed.
 - Stable IDs in test titles map to the coverage matrix below. Do not renumber existing IDs.
 - Layer tags: `@ui`, `@api`. Feature tags: `@login`, `@cart`, `@products`, `@checkout`, `@users`.
 - `@smoke`: small critical-path subset. `@regression`: all current tests.

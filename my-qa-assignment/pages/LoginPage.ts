@@ -7,10 +7,10 @@ export class LoginPage {
   readonly error;
 
   constructor(private readonly page: Page) {
-    this.username = page.getByTestId('username');
-    this.password = page.getByTestId('password');
-    this.loginButton = page.getByTestId('login-button');
-    this.error = page.getByTestId('error');
+    this.username = page.getByRole('textbox', { name: 'Username', exact: true });
+    this.password = page.getByLabel('Password', { exact: true });
+    this.loginButton = page.getByRole('button', { name: 'Login', exact: true });
+    this.error = page.getByRole('alert');
   }
 
   async goto() {
